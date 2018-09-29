@@ -1,39 +1,562 @@
-<!--
-Please note that whilst development of this website concludes, it will be iframed.
-This is only a temporary solution.
-Full implementation of this website coming soon.
--->
-<!DOCTYPE html>
+<!doctype html>
+
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Mit License Tools</title>
-    <style type="text/css">
-        body,
-        html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden;
-        }
-        
-        #content {
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            top: 0px;
-        }
-    </style>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="This is a website which makes api requests to mit-license.org in order to create your very own dynamic license or get the url for your already existing license.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>MIT License Tools</title>
 </head>
 
 <body>
-    <div id="content">
-        <iframe width="100%" height="100%" frameborder="0" src="https://s.codepen.io/Richienb/debug/ZMNLzr"></iframe>
+    <div class="demo-layout mdl-layout mdl-layout--fixed-header mdl-js-layout mdl-color--grey-100">
+
+        <div class="demo-ribbon"></div>
+        <main class="demo-main mdl-layout__content">
+            <div class="demo-container mdl-grid">
+                <div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
+                <div class="demo-content mdl-color--white mdl-shadow--4dp content mdl-color-text--grey-800 mdl-cell mdl-cell--8-col">
+                    <h3>MIT License Tools</h3>
+                    <p>
+                        This is a website which makes api requests to <a target="_blank" rel="noreferrer" href="https://mit-license.org/">mit-license.org</a> in order to create your very own dynamic license or get the url for your already existing license. Please note that this website is still in development.
+                    </p>
+                    <h4>New License</h4>
+                    <p>Remember, only the subdomain name is required but you could include the other fields as well.</p>
+
+                    <!-- Copyright Name -->
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input onkeyup="updatecode()" class="mdl-textfield__input" type="text" id="copyright-name">
+                        <label class="mdl-textfield__label" for="copyright-name">Copyright Name</label>
+                    </div>
+                    <br>
+                    <!-- Subdomain Name -->
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input onchange="updatecode()" onkeyup="updatecode(); updatebox()" class="mdl-textfield__input" type="text" id="subdomain-name" required>
+                        <label class="mdl-textfield__label" for="domain-name">Subdomain Name</label>
+                    </div>
+                    <br>
+                    <!-- Link URL -->
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input onkeyup="updatecode()" class="mdl-textfield__input" type="url" id="link-url">
+                        <label class="mdl-textfield__label" for="domain-name">Link URL</label>
+                    </div>
+                    <br>
+                    <!-- Email -->
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input onkeyup="updatecode()" class="mdl-textfield__input" type="email" id="email">
+                        <label class="mdl-textfield__label" for="email">Email</label>
+                    </div>
+                    <br>
+                    <!-- Default Output Type -->
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select getmdl-select__fix-height">
+                        <input onchange="updatecode()" type="text" value="" class="mdl-textfield__input" id="default-output-type" readonly>
+                        <input type="hidden" value="" name="default-output-type">
+                        <i class="mdl-icon-toggle__label material-icons">keyboard_arrow_down</i>
+                        <label for="sample6" class="mdl-textfield__label">Default Output Type</label>
+                        <ul for="default-output-type" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+                            <li onclick="default_output_type_var = \" html\ "" class="mdl-menu__item" data-val="html" data-selected="true">HTML</li>
+                            <li onclick="default_output_type_var = \" txt\ "" class="mdl-menu__item" data-val="txt">Text</li>
+                        </ul>
+                    </div>
+                    <br>
+                    <!-- Use Gravatar -->
+                    <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="use-gravatar" id="use-gravatar-div">
+                        <input onclick="updatecode()" type="checkbox" id="use-gravatar" class="mdl-switch__input">
+                        <span class="mdl-switch__label">Use Gravatar</span>
+                    </label>
+                    <br>
+                    <!-- License Version Targeting -->
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input onkeyup="updatecode()" class="mdl-textfield__input" type="text" id="license-version-targeting">
+                        <label class="mdl-textfield__label" for="license-version-targeting">License Version Targeting</label>
+                    </div>
+                    <br>
+                    <!-- Theme -->
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select getmdl-select__fix-height">
+                        <input onchange="updatecode()" type="text" value="" class="mdl-textfield__input" id="theme" readonly>
+                        <input type="hidden" value="" name="default-output-type">
+                        <i class="mdl-icon-toggle__label material-icons">keyboard_arrow_down</i>
+                        <label for="sample6" class="mdl-textfield__label">Theme</label>
+                        <ul for="theme" class="mdl-menu mdl-menu--bottom-left mdl-js-menu" id="theme-list">
+                            <li onclick="updatecode()" class="mdl-menu__item" data-selected="true">default</li>
+                        </ul>
+                    </div>
+                    <br>
+
+                    <section>
+                        <h5>Final Step</h5>
+                        <p>
+                            <!-- I confirm that all the information provided is truthful and accurate -->
+                            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" id="confirm-box-div" for="confirm-box">
+                                <input onclick="codetoexecfunc()" type="checkbox" id="confirm-box" class="mdl-checkbox__input" disabled>
+                                <span class="mdl-checkbox__label">I confirm that all the information provided is truthful, correct and accurate</span>
+                            </label>
+                        </p>
+                        <br>
+                        <span style="display: none;" id="codetoexec">
+                          <p>Navigate to <a target="_blank" rel="noreferrer" href="https://onlinecurl.com/">onlinecurl.com</a> and paste in and execute the following code</p><pre class="prettyprint" id="code"></pre>
+                      </span>
+
+                    </section>
+
+                </div>
+            </div>
+
+        </main>
     </div>
+    <style>
+        html > body {
+            font-family: "Roboto", "Helvetica", "Arial", sans-serif !important;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        pre {
+            white-space: pre-wrap;
+            /* Since CSS 2.1 */
+            white-space: -moz-pre-wrap;
+            /* Mozilla, since 1999 */
+            white-space: -pre-wrap;
+            /* Opera 4-6 */
+            white-space: -o-pre-wrap;
+            /* Opera 7 */
+            word-wrap: break-word;
+            /* Internet Explorer 5.5+ */
+        }
+        
+        .demo-ribbon {
+            width: 100%;
+            height: 40vh;
+            background-color: #3f51b5;
+            -webkit-flex-shrink: 0;
+            -ms-flex-negative: 0;
+            flex-shrink: 0;
+        }
+        
+        .demo-main {
+            margin-top: -35vh;
+            -webkit-flex-shrink: 0;
+            -ms-flex-negative: 0;
+            flex-shrink: 0;
+        }
+        
+        .demo-header .mdl-layout__header-row {
+            padding-left: 40px;
+        }
+        
+        .demo-container {
+            max-width: 1600px;
+            width: calc(100% - 16px);
+            margin: 0 auto;
+        }
+        
+        .demo-content {
+            border-radius: 2px;
+            padding: 80px 56px;
+            margin-bottom: 80px;
+        }
+        
+        .demo-layout.is-small-screen .demo-content {
+            padding: 40px 28px;
+        }
+        
+        .demo-content h3 {
+            margin-top: 48px;
+        }
+        
+        .demo-footer {
+            padding-left: 40px;
+        }
+        
+        .demo-footer .mdl-mini-footer--link-list a {
+            font-size: 13px;
+        }
+    </style>
+    <script async defer>
+        if (typeof escapeHtmlEntities == "undefined") {
+            escapeHtmlEntities = function(text) {
+                return text.replace(/[\u00A0-\u2666<>\&]/g, function(c) {
+                    return (
+                        "&" +
+                        (escapeHtmlEntities.entityTable[c.charCodeAt(0)] ||
+                            "#" + c.charCodeAt(0)) +
+                        ";"
+                    );
+                });
+            };
+
+            // all HTML4 entities as defined here: http://www.w3.org/TR/html4/sgml/entities.html
+            // added: amp, lt, gt, quot and apos
+            escapeHtmlEntities.entityTable = {
+                34: "quot",
+                38: "amp",
+                39: "apos",
+                60: "lt",
+                62: "gt",
+                160: "nbsp",
+                161: "iexcl",
+                162: "cent",
+                163: "pound",
+                164: "curren",
+                165: "yen",
+                166: "brvbar",
+                167: "sect",
+                168: "uml",
+                169: "copy",
+                170: "ordf",
+                171: "laquo",
+                172: "not",
+                173: "shy",
+                174: "reg",
+                175: "macr",
+                176: "deg",
+                177: "plusmn",
+                178: "sup2",
+                179: "sup3",
+                180: "acute",
+                181: "micro",
+                182: "para",
+                183: "middot",
+                184: "cedil",
+                185: "sup1",
+                186: "ordm",
+                187: "raquo",
+                188: "frac14",
+                189: "frac12",
+                190: "frac34",
+                191: "iquest",
+                192: "Agrave",
+                193: "Aacute",
+                194: "Acirc",
+                195: "Atilde",
+                196: "Auml",
+                197: "Aring",
+                198: "AElig",
+                199: "Ccedil",
+                200: "Egrave",
+                201: "Eacute",
+                202: "Ecirc",
+                203: "Euml",
+                204: "Igrave",
+                205: "Iacute",
+                206: "Icirc",
+                207: "Iuml",
+                208: "ETH",
+                209: "Ntilde",
+                210: "Ograve",
+                211: "Oacute",
+                212: "Ocirc",
+                213: "Otilde",
+                214: "Ouml",
+                215: "times",
+                216: "Oslash",
+                217: "Ugrave",
+                218: "Uacute",
+                219: "Ucirc",
+                220: "Uuml",
+                221: "Yacute",
+                222: "THORN",
+                223: "szlig",
+                224: "agrave",
+                225: "aacute",
+                226: "acirc",
+                227: "atilde",
+                228: "auml",
+                229: "aring",
+                230: "aelig",
+                231: "ccedil",
+                232: "egrave",
+                233: "eacute",
+                234: "ecirc",
+                235: "euml",
+                236: "igrave",
+                237: "iacute",
+                238: "icirc",
+                239: "iuml",
+                240: "eth",
+                241: "ntilde",
+                242: "ograve",
+                243: "oacute",
+                244: "ocirc",
+                245: "otilde",
+                246: "ouml",
+                247: "divide",
+                248: "oslash",
+                249: "ugrave",
+                250: "uacute",
+                251: "ucirc",
+                252: "uuml",
+                253: "yacute",
+                254: "thorn",
+                255: "yuml",
+                402: "fnof",
+                913: "Alpha",
+                914: "Beta",
+                915: "Gamma",
+                916: "Delta",
+                917: "Epsilon",
+                918: "Zeta",
+                919: "Eta",
+                920: "Theta",
+                921: "Iota",
+                922: "Kappa",
+                923: "Lambda",
+                924: "Mu",
+                925: "Nu",
+                926: "Xi",
+                927: "Omicron",
+                928: "Pi",
+                929: "Rho",
+                931: "Sigma",
+                932: "Tau",
+                933: "Upsilon",
+                934: "Phi",
+                935: "Chi",
+                936: "Psi",
+                937: "Omega",
+                945: "alpha",
+                946: "beta",
+                947: "gamma",
+                948: "delta",
+                949: "epsilon",
+                950: "zeta",
+                951: "eta",
+                952: "theta",
+                953: "iota",
+                954: "kappa",
+                955: "lambda",
+                956: "mu",
+                957: "nu",
+                958: "xi",
+                959: "omicron",
+                960: "pi",
+                961: "rho",
+                962: "sigmaf",
+                963: "sigma",
+                964: "tau",
+                965: "upsilon",
+                966: "phi",
+                967: "chi",
+                968: "psi",
+                969: "omega",
+                977: "thetasym",
+                978: "upsih",
+                982: "piv",
+                8226: "bull",
+                8230: "hellip",
+                8242: "prime",
+                8243: "Prime",
+                8254: "oline",
+                8260: "frasl",
+                8472: "weierp",
+                8465: "image",
+                8476: "real",
+                8482: "trade",
+                8501: "alefsym",
+                8592: "larr",
+                8593: "uarr",
+                8594: "rarr",
+                8595: "darr",
+                8596: "harr",
+                8629: "crarr",
+                8656: "lArr",
+                8657: "uArr",
+                8658: "rArr",
+                8659: "dArr",
+                8660: "hArr",
+                8704: "forall",
+                8706: "part",
+                8707: "exist",
+                8709: "empty",
+                8711: "nabla",
+                8712: "isin",
+                8713: "notin",
+                8715: "ni",
+                8719: "prod",
+                8721: "sum",
+                8722: "minus",
+                8727: "lowast",
+                8730: "radic",
+                8733: "prop",
+                8734: "infin",
+                8736: "ang",
+                8743: "and",
+                8744: "or",
+                8745: "cap",
+                8746: "cup",
+                8747: "int",
+                8756: "there4",
+                8764: "sim",
+                8773: "cong",
+                8776: "asymp",
+                8800: "ne",
+                8801: "equiv",
+                8804: "le",
+                8805: "ge",
+                8834: "sub",
+                8835: "sup",
+                8836: "nsub",
+                8838: "sube",
+                8839: "supe",
+                8853: "oplus",
+                8855: "otimes",
+                8869: "perp",
+                8901: "sdot",
+                8968: "lceil",
+                8969: "rceil",
+                8970: "lfloor",
+                8971: "rfloor",
+                9001: "lang",
+                9002: "rang",
+                9674: "loz",
+                9824: "spades",
+                9827: "clubs",
+                9829: "hearts",
+                9830: "diams",
+                338: "OElig",
+                339: "oelig",
+                352: "Scaron",
+                353: "scaron",
+                376: "Yuml",
+                710: "circ",
+                732: "tilde",
+                8194: "ensp",
+                8195: "emsp",
+                8201: "thinsp",
+                8204: "zwnj",
+                8205: "zwj",
+                8206: "lrm",
+                8207: "rlm",
+                8211: "ndash",
+                8212: "mdash",
+                8216: "lsquo",
+                8217: "rsquo",
+                8218: "sbquo",
+                8220: "ldquo",
+                8221: "rdquo",
+                8222: "bdquo",
+                8224: "dagger",
+                8225: "Dagger",
+                8240: "permil",
+                8249: "lsaquo",
+                8250: "rsaquo",
+                8364: "euro"
+            };
+        }
+
+        function codetoexecfunc() {
+            $("#codetoexec").toggle();
+        }
+
+        function updatebox() {
+            if ($("#subdomain-name").val() !== "") {
+                $("#confirm-box").prop("disabled", false);
+            } else {
+                $("#confirm-box").prop("disabled", true);
+            }
+        }
+
+        function updatedomain() {
+            if (
+                $("#domain-name").val() === "" ||
+                /https:\/\/.*\.mit-license\.org/gm.test($("#domain-name").val())
+            ) {
+                if ($("#copyright-name").val() === "") {
+                    $("#domain-name").val("");
+                    $("#domain-name-div").removeClass("is-dirty");
+                } else {
+                    $("#domain-name")[0].parentElement.MaterialTextfield.change(
+                        "https://" +
+                        $("#copyright-name")
+                        .val()
+                        .toLowerCase()
+                        .replace(" ", "-") +
+                        ".mit-license.org"
+                    );
+                }
+            }
+        }
+
+        function updatecode() {
+            document.getElementById("confirm-box-div").MaterialCheckbox.uncheck();
+            $("#codetoexec").hide();
+            var dict = [];
+            if ($("#copyright-name").val() !== "") {
+                dict.push({
+                    copyright: $("#copyright-name").val()
+                });
+            }
+            if ($("#link-url").val() !== "") {
+                dict.push({
+                    url: $("#link-url").val()
+                });
+            }
+            if ($("#email").val() !== "") {
+                dict.push({
+                    email: $("#email").val()
+                });
+            }
+            if ($("#license-version-targeting").val() !== "") {
+                dict.push({
+                    version: $("#license-version-targeting").val()
+                });
+            }
+            if ($("#default-output-type").val() === "HTML") {
+                dict.push({
+                    format: "html"
+                });
+            } else if ($("#default-output-type").val() === "Text") {
+                dict.push({
+                    format: "txt"
+                });
+            } else {
+                console.err("ERROR: Default Output Type is neither HTML or Text");
+            }
+            dict.push({
+                gravatar: $("#use-gravatar-div").is(".is-checked"),
+                theme: $("#theme").val()
+            });
+            $("#code").html(
+                PR.prettyPrintOne(
+                    escapeHtmlEntities(
+                        "curl -d'" +
+                        JSON.stringify(dict)
+                        .replace(/{/g, "")
+                        .replace(/}/g, "")
+                        .replace("[", "{")
+                        .replace("]", "}") +
+                        "' https://" +
+                        $("#subdomain-name").val() +
+                        ".mit-license.org"
+                    )
+                )
+            );
+        }
+
+        $(document).ready(function() {
+            $.getJSON(
+                "https://api.github.com/repos/remy/mit-license/contents/themes",
+                function(data) {
+                    for (var i = 0; i < data.length; i++) {
+                        if (
+                            data[i].name.endsWith(".css") &&
+                            data[i].name.slice(0, -4) !== "default"
+                        ) {
+                            var codetoappend =
+                                '<li onclick="updatecode()" class="mdl-menu__item">' +
+                                data[i].name.slice(0, -4) +
+                                "</li>";
+                            $("#theme-list").append(codetoappend);
+                        }
+                    }
+                }
+            );
+        });
+    </script>
 </body>
 
 </html>
