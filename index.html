@@ -1,573 +1,572 @@
-<!doctype html>
-
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="This is a website which makes api requests to mit-license.org in order to create your very own dynamic license or get the url for your already existing license.">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-    <title>MIT License Tools</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="theme-color" content="#3F51B5">
+
+    <title>MIT License Generator</title>
+    <meta name="description" content="Generate your own MIT License, powered by remy/mit-license.">
+
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/3.1.0/material-components-web.min.css" integrity="sha256-voUqnCyPwUS8V13qBTL34rsJfLjgkTes5RWoUVChVAw=" crossorigin="anonymous" />
+
+    <style>
+        body {
+            --mdc-theme-primary: #3f51b5;
+            --mdc-theme-secondary: #f44336;
+            background-color: #fafafa;
+        }
+        
+        body .ribbon {
+            top: 0;
+            z-index: -1;
+            background-color: var(--mdc-theme-primary, #6200ee);
+            width: 100%;
+            height: 10rem;
+            position: absolute;
+        }
+        
+        body .main-content {
+            background-color: white;
+            border-radius: 4px;
+            margin: 1.5rem;
+            padding: 2rem;
+            min-height: calc(100vh - 7rem);
+        }
+        
+        body .main-content .gen__add-holder {
+            margin-left: 2rem;
+        }
+        
+        body .main-content .gen__holder-title {
+            display: inline-block;
+        }
+        
+        body .main-content .gen__copyright-card {
+            padding: 2rem;
+        }
+        
+        body .main-content .gen__copyright-card-extra {
+            margin-top: 1rem;
+        }
+        
+        body .main-content .mdc-icon-button__icon:not(.mdc-icon-button__icon--on) {
+            fill: rgba(0, 0, 0, 0.38);
+            fill: var(--mdc-theme-text-icon-on-background, rgba(0, 0, 0, 0.38));
+        }
+        
+        body .main-content img {
+            max-width: 100%;
+        }
+        
+        body .main-content .mdc-button.mdc-button--raised {
+            background-color: var(--mdc-theme-secondary, #018786);
+        }
+        
+        body .main-content .theme-toggle {
+            position: absolute;
+            top: 0.5rem;
+            right: 3rem;
+        }
+        
+        body .main-content a {
+            color: var(--mdc-theme-primary, #6200ee);
+        }
+        
+        body .main-content::-moz-selection {
+            background-color: var(--mdc-theme-primary, #6200ee);
+            color: white;
+        }
+        
+        body .main-content::selection {
+            background-color: var(--mdc-theme-primary, #6200ee);
+            color: white;
+        }
+        
+        body .main-content #carbonads {
+            margin-bottom: 1rem;
+            float: right;
+            border-radius: 6px;
+            box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+            font-family: Roboto, sans-serif;
+            line-height: 28px;
+            padding: 8px;
+            box-sizing: border-box;
+            transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @media only screen and (max-width: 425px) {
+            body .main-content #carbonads {
+                width: 100%;
+            }
+        }
+        
+        body .main-content #carbonads:hover {
+            box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+        }
+        
+        body .main-content #carbonads .carbon-wrap .carbon-img > img {
+            margin-right: 9px;
+            float: left;
+        }
+        
+        @media only screen and (max-width: 400px) {
+            body .main-content #carbonads .carbon-wrap .carbon-img > img {
+                width: auto;
+                max-width: 130px;
+                height: 50px;
+            }
+        }
+        
+        body .main-content #carbonads .carbon-wrap .carbon-text {
+            color: #637381;
+            font-weight: 300;
+            display: block;
+            font-size: 12px;
+            line-height: 15.96px;
+            margin-bottom: 0;
+            margin-top: 8px;
+            text-decoration: none;
+        }
+        
+        body .main-content #carbonads .carbon-poweredby {
+            color: #c5cdd0;
+            font-size: 8px;
+            font-weight: 500;
+            line-height: 10px;
+            text-transform: uppercase;
+            text-decoration: none;
+        }
+        
+        body .full-width {
+            width: 100%;
+        }
+        
+        body .mdc-select__menu {
+            width: calc(100% - 7rem);
+        }
+        
+        body .mdc-switch__label {
+            padding-left: 10px;
+        }
+        
+        body.setting--dark {
+            background-color: #121212 !important;
+            --mdc-theme-text-primary-on-background: white;
+            --mdc-theme-text-secondary-on-background: white;
+            --mdc-theme-text-icon-on-background: white;
+        }
+        
+        body.setting--dark::-webkit-scrollbar {
+            background-color: #424242;
+        }
+        
+        body.setting--dark .main-content,
+        body.setting--dark .mdc-card {
+            color: white;
+            background-color: #212121;
+        }
+        
+        body.setting--dark .mdc-select__selected-text,
+        body.setting--dark .mdc-text-field__input,
+        body.setting--dark .mdc-floating-label,
+        body.setting--dark #carbonads .carbon-text {
+            color: white !important;
+        }
+        
+        body.setting--dark .mdc-notched-outline__leading,
+        body.setting--dark .mdc-notched-outline__notch,
+        body.setting--dark .mdc-notched-outline__trailing {
+            border-color: white !important;
+        }
+        
+        body.setting--dark a {
+            color: #5c6bc0;
+        }
+        
+        body.setting--dark::-moz-selection {
+            background-color: #c5cae9;
+            color: black;
+        }
+        
+        body.setting--dark::selection {
+            background-color: #c5cae9;
+            color: black;
+        }
+        
+        body.setting--animate-colours {
+            transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        body.setting--animate-colours .main-content,
+        body.setting--animate-colours a,
+        body.setting--animate-colours::-moz-selection {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition-property: background-color, color;
+        }
+        
+        body.setting--animate-colours .main-content,
+        body.setting--animate-colours a,
+        body.setting--animate-colours::selection {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition-property: background-color, color;
+        }
+        
+        body::-webkit-scrollbar,
+        body .mdc-select__menu::-webkit-scrollbar {
+            border-radius: 100px;
+            background-color: transparent;
+            width: 8px;
+            height: 8px;
+        }
+        
+        body::-webkit-scrollbar-button,
+        body .mdc-select__menu::-webkit-scrollbar-button {
+            height: 0;
+            width: 0;
+        }
+        
+        body::-webkit-scrollbar-corner,
+        body .mdc-select__menu::-webkit-scrollbar-corner {
+            background-color: transparent;
+        }
+        
+        body::-webkit-scrollbar-thumb,
+        body .mdc-select__menu::-webkit-scrollbar-thumb {
+            border-radius: 100px;
+            background-color: rgba(0, 0, 0, 0.2);
+            min-height: 28px;
+        }
+        
+        body::-webkit-scrollbar-thumb:hover,
+        body .mdc-select__menu::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        
+        body::-webkit-scrollbar-thumb:active,
+        body .mdc-select__menu::-webkit-scrollbar-thumb:active {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        body::-webkit-scrollbar-track,
+        body .mdc-select__menu::-webkit-scrollbar-track {
+            background-clip: padding-box;
+            border-width: 0 0 0 4px;
+        }
+    </style>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha256-l85OmPOjvil/SOvVt3HnSSjzF1TUMyT9eV0c2BzEGzU=" crossorigin="anonymous" />
+
 </head>
 
 <body>
-    <div class="demo-layout mdl-layout mdl-layout--fixed-header mdl-js-layout mdl-color--grey-100">
-
-        <div class="demo-ribbon"></div>
-        <main class="demo-main mdl-layout__content">
-            <div class="demo-container mdl-grid">
-                <div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
-                <div class="demo-content mdl-color--white mdl-shadow--4dp content mdl-color-text--grey-800 mdl-cell mdl-cell--8-col">
-                    <h3>MIT License Tools</h3>
-                    <p>
-                        This is a website which makes api requests to <a target="_blank" rel="noreferrer" href="https://mit-license.org/">mit-license.org</a> in order to create your very own dynamic license or get the url for your already existing license. Please note that this website is still in development. Features such as automatic MIT License registration is coming soon.
-                    </p>
-                    <h4>New License</h4>
-                    <p>Remember, only the subdomain name is required but you could include the other fields as well.</p>
-
-                    <!-- Copyright Name -->
-                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                        <input onkeyup="updatecode()" class="mdl-textfield__input" type="text" id="copyright-name">
-                        <label class="mdl-textfield__label" for="copyright-name">Copyright Name</label>
+    <!-- https://richienb.mit-license.org/ -->
+    <div class="ribbon mdc-elevation--z4"></div>
+    <main class="main-content mdc-typography mdc-elevation--z8">
+        <script async src="https://cdn.carbonads.com/carbon.js?serve=CK7I6K3E&amp;placement=wwwrichie-bendallml" id="_carbonads_js"></script>
+        <button class="theme-toggle mdc-fab mdc-fab--mini" aria-label="Toggle theme" data-mdc-auto-init="MDCRipple">
+            <svg class="theme-toggle__svg mdc-fab__icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path fill="none" d="M0 0h24v24H0V0z" />
+                <path d="M11 7l-3.2 9h1.9l.7-2h3.2l.7 2h1.9L13 7h-2zm-.15 5.65L12 9l1.15 3.65h-2.3zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69zm-2 5.79V18h-3.52L12 20.48 9.52 18H6v-3.52L3.52 12 6 9.52V6h3.52L12 3.52 14.48 6H18v3.52L20.48 12 18 14.48z" />
+            </svg>
+        </button>
+        <h1 class="mdc-typography--headline2">MIT License Generator</h1>
+        <p class="mdc-typography--body1">Generate your own MIT License, powered by <a href="https://github.com/remy/mit-license" target="_blank" rel="noopener">remy/mit-license</a>.</p>
+        <form class="gen__form" action="#">
+            <h2 class="gen__holder-title mdc-typography--headline6">Copyright holder information</h2>
+            <div class="gen__copyright-card mdc-card mdc-card--outlined full-width">
+                <label class="gen__copyright mdc-text-field mdc-text-field--outlined full-width" data-mdc-auto-init="MDCTextField">
+                    <input type="text" class="mdc-text-field__input" required>
+                    <div class="mdc-notched-outline">
+                        <div class="mdc-notched-outline__leading"></div>
+                        <div class="mdc-notched-outline__notch">
+                            <span class="mdc-floating-label">Copyright holder</span>
+                        </div>
+                        <div class="mdc-notched-outline__trailing"></div>
                     </div>
-                    <br>
-                    <!-- Subdomain Name -->
-                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                        <input onchange="updatecode()" onkeyup="updatecode(); updatebox()" class="mdl-textfield__input" type="text" id="subdomain-name" required>
-                        <label class="mdl-textfield__label" for="domain-name">Subdomain Name</label>
+                </label>
+                <br>
+                <label class="gen__url mdc-text-field mdc-text-field--outlined full-width" data-mdc-auto-init="MDCTextField">
+                    <input type="url" class="mdc-text-field__input">
+                    <div class="mdc-notched-outline">
+                        <div class="mdc-notched-outline__leading"></div>
+                        <div class="mdc-notched-outline__notch">
+                            <span class="mdc-floating-label">URL</span>
+                        </div>
+                        <div class="mdc-notched-outline__trailing"></div>
                     </div>
-                    <br>
-                    <!-- Link URL -->
-                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                        <input onkeyup="updatecode()" class="mdl-textfield__input" type="url" id="link-url">
-                        <label class="mdl-textfield__label" for="domain-name">Link URL</label>
+                </label>
+                <br>
+                <label class="gen__email mdc-text-field mdc-text-field--outlined full-width" data-mdc-auto-init="MDCTextField">
+                    <input type="email" class="mdc-text-field__input">
+                    <div class="mdc-notched-outline">
+                        <div class="mdc-notched-outline__leading"></div>
+                        <div class="mdc-notched-outline__notch">
+                            <span class="mdc-floating-label">Email</span>
+                        </div>
+                        <div class="mdc-notched-outline__trailing"></div>
                     </div>
-                    <br>
-                    <!-- Email -->
-                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                        <input onkeyup="updatecode()" class="mdl-textfield__input" type="email" id="email">
-                        <label class="mdl-textfield__label" for="email">Email</label>
+                </label>
+            </div>
+            <br>
+            <button class="gen__add-holder mdc-button mdc-button--outlined" type="button" data-mdc-auto-init="MDCRipple">
+                <svg class="mdc-button__icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path fill="none" d="M0 0h24v24H0V0z" />
+                    <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
+                </svg>
+                <span class="mdc-fab__label">Add copyright holder</span>
+            </button>
+            <h2 class="mdc-typography--headline6">Personalisation</h2>
+            <label class="gen__subdomain mdc-text-field mdc-text-field--outlined full-width" data-mdc-auto-init="MDCTextField">
+                <input type="text" pattern="^[\w\-_]+$" class="mdc-text-field__input" required>
+                <div class="mdc-notched-outline">
+                    <div class="mdc-notched-outline__leading"></div>
+                    <div class="mdc-notched-outline__notch">
+                        <span class="mdc-floating-label">Subdomain name</span>
                     </div>
-                    <br>
-                    <!-- Default Output Type -->
-                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select getmdl-select__fix-height">
-                        <input onchange="updatecode()" type="text" value="" class="mdl-textfield__input" id="default-output-type" readonly>
-                        <input type="hidden" value="" name="default-output-type">
-                        <i class="mdl-icon-toggle__label material-icons">keyboard_arrow_down</i>
-                        <label for="sample6" class="mdl-textfield__label">Default Output Type</label>
-                        <ul for="default-output-type" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
-                            <li onclick="default_output_type_var = \" html\ "" class="mdl-menu__item" data-val="html" data-selected="true">HTML</li>
-                            <li onclick="default_output_type_var = \" txt\ "" class="mdl-menu__item" data-val="txt">Text</li>
-                        </ul>
+                    <div class="mdc-notched-outline__trailing"></div>
+                </div>
+            </label>
+            <br>
+            <br>
+            <div class="gen__format mdc-select mdc-select--outlined full-width">
+                <input type="hidden" name="enhanced-select">
+                <i class="mdc-select__dropdown-icon"></i>
+                <div id="demo-selected-text" class="mdc-select__selected-text" role="button" aria-haspopup="listbox" aria-labelledby="demo-label demo-selected-text"></div>
+                <div class="mdc-select__menu mdc-menu mdc-menu-surface" role="listbox">
+                    <ul class="mdc-list">
+                        <li class="mdc-list-item mdc-list-item--selected" data-value="html" role="option" data-mdc-auto-init="MDCRipple">Rich HTML</li>
+                        <li class="mdc-list-item" data-value="text" role="option" data-mdc-auto-init="MDCRipple">Plain Text</li>
+                    </ul>
+                </div>
+                <div class="mdc-notched-outline">
+                    <div class="mdc-notched-outline__leading"></div>
+                    <div class="mdc-notched-outline__notch">
+                        <label class="mdc-floating-label">Format</label>
                     </div>
-                    <br>
-                    <!-- Use Gravatar -->
-                    <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="use-gravatar" id="use-gravatar-div">
-                        <input onclick="updatecode()" type="checkbox" id="use-gravatar" class="mdl-switch__input">
-                        <span class="mdl-switch__label">Use Gravatar</span>
-                    </label>
-                    <br>
-                    <!-- License Version Targeting -->
-                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                        <input onkeyup="updatecode()" class="mdl-textfield__input" type="text" id="license-version-targeting">
-                        <label class="mdl-textfield__label" for="license-version-targeting">License Version Targeting</label>
-                    </div>
-                    <br>
-                    <!-- Theme -->
-                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select getmdl-select__fix-height">
-                        <input onchange="updatecode()" type="text" value="" class="mdl-textfield__input" id="theme" readonly>
-                        <input type="hidden" value="" name="default-output-type">
-                        <i class="mdl-icon-toggle__label material-icons">keyboard_arrow_down</i>
-                        <label for="sample6" class="mdl-textfield__label">Theme</label>
-                        <ul for="theme" class="mdl-menu mdl-menu--bottom-left mdl-js-menu" id="theme-list">
-                            <li onclick="updatecode()" class="mdl-menu__item" data-selected="true">default</li>
-                        </ul>
-                    </div>
-                    <br>
-
-                    <section>
-                        <h5>Final Step</h5>
-                        <p>
-                            <!-- I confirm that all the information provided is truthful and accurate -->
-                            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" id="confirm-box-div" for="confirm-box">
-                                <input onclick="codetoexecfunc()" type="checkbox" id="confirm-box" class="mdl-checkbox__input" disabled>
-                                <span class="mdl-checkbox__label">I confirm that all the information provided is truthful, correct and accurate</span>
-                            </label>
-                        </p>
-                        <br>
-                        <span style="display: none;" id="codetoexec">
-                          <p>Navigate to <a target="_blank" rel="noreferrer" href="https://onlinecurl.com/">onlinecurl.com</a> and paste in and execute the following code</p><pre class="prettyprint" id="code"></pre>
-                      </span>
-
-                    </section>
-
+                    <div class="mdc-notched-outline__trailing"></div>
                 </div>
             </div>
+            <br>
+            <br>
+            <div class="gen__license mdc-select mdc-select--outlined full-width">
+                <input type="hidden" name="enhanced-select">
+                <i class="mdc-select__dropdown-icon"></i>
+                <div id="demo-selected-text" class="mdc-select__selected-text" role="button" aria-haspopup="listbox" aria-labelledby="demo-label demo-selected-text"></div>
+                <div class="mdc-select__menu mdc-menu mdc-menu-surface" role="listbox">
+                    <ul class="mdc-list">
+                        <li class="mdc-list-item mdc-list-item--selected" data-value="mit" role="option" data-mdc-auto-init="MDCRipple">MIT</li>
+                        <li class="mdc-list-item" data-value="isc" role="option" data-mdc-auto-init="MDCRipple">ISC</li>
+                    </ul>
+                </div>
+                <div class="mdc-notched-outline">
+                    <div class="mdc-notched-outline__leading"></div>
+                    <div class="mdc-notched-outline__notch">
+                        <label class="mdc-floating-label">Default License</label>
+                    </div>
+                    <div class="mdc-notched-outline__trailing"></div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="gen__theme mdc-select mdc-select--outlined full-width">
+                <input type="hidden" name="enhanced-select">
+                <i class="mdc-select__dropdown-icon"></i>
+                <div id="demo-selected-text" class="mdc-select__selected-text" role="button" aria-haspopup="listbox" aria-labelledby="demo-label demo-selected-text"></div>
+                <div class="mdc-select__menu mdc-menu mdc-menu-surface" role="listbox">
+                    <ul class="mdc-list gen__theme-list">
+                    </ul>
+                </div>
+                <div class="mdc-notched-outline">
+                    <div class="mdc-notched-outline__leading"></div>
+                    <div class="mdc-notched-outline__notch">
+                        <label class="mdc-floating-label">Theme</label>
+                    </div>
+                    <div class="mdc-notched-outline__trailing"></div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="gen__gravatar mdc-switch">
+                <div class="mdc-switch__track"></div>
+                <div class="mdc-switch__thumb-underlay">
+                    <div class="mdc-switch__thumb">
+                        <input type="checkbox" id="basic-switch" class="mdc-switch__native-control" role="switch">
+                    </div>
+                </div>
+            </div>
+            <label class="mdc-switch__label" for="basic-switch">Gravatar</label>
+            <br>
+            <br>
+            <br>
+            <button class="mdc-fab mdc-fab--extended" type="submit" data-mdc-auto-init="MDCRipple">
+                <svg class="mdc-fab__icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path fill="none" d="M0 0h24v24H0V0z" />
+                    <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
+                </svg>
+                <span class="mdc-fab__label">Generate License</span>
+            </button>
+        </form>
+        <div class="gen__snackbar mdc-snackbar mdc-snackbar--leading" data-mdc-auto-init="MDCSnackbar">
+            <div class="mdc-snackbar__surface">
+                <div class="mdc-snackbar__label" role="status" aria-live="polite"></div>
+            </div>
+        </div>
+    </main>
+    <!--[if lt IE 9]> <script async src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js" integrity="sha256-1eSvllkLdrfxD6G8RGF9h+mQuD93Af5+GdPBMNc7uMQ=" crossorigin="anonymous"></script> <![endif]-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/3.1.0/material-components-web.min.js" integrity="sha256-rv3OBFdLbjPoTQfXBZSlTToJy4+1oL418ga1bksQmyU=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
-        </main>
-    </div>
-    <style>
-        html > body {
-            font-family: "Roboto", "Helvetica", "Arial", sans-serif !important;
-        }
-        
-        .hidden {
-            display: none;
-        }
-        
-        pre {
-            white-space: pre-wrap;
-            /* Since CSS 2.1 */
-            white-space: -moz-pre-wrap;
-            /* Mozilla, since 1999 */
-            white-space: -pre-wrap;
-            /* Opera 4-6 */
-            white-space: -o-pre-wrap;
-            /* Opera 7 */
-            word-wrap: break-word;
-            /* Internet Explorer 5.5+ */
-        }
-        
-        .demo-ribbon {
-            width: 100%;
-            height: 40vh;
-            background-color: #3f51b5;
-            -webkit-flex-shrink: 0;
-            -ms-flex-negative: 0;
-            flex-shrink: 0;
-        }
-        
-        .demo-main {
-            margin-top: -35vh;
-            -webkit-flex-shrink: 0;
-            -ms-flex-negative: 0;
-            flex-shrink: 0;
-        }
-        
-        .demo-header .mdl-layout__header-row {
-            padding-left: 40px;
-        }
-        
-        .demo-container {
-            max-width: 1600px;
-            width: calc(100% - 16px);
-            margin: 0 auto;
-        }
-        
-        .demo-content {
-            border-radius: 2px;
-            padding: 80px 56px;
-            margin-bottom: 80px;
-        }
-        
-        .demo-layout.is-small-screen .demo-content {
-            padding: 40px 28px;
-        }
-        
-        .demo-content h3 {
-            margin-top: 48px;
-        }
-        
-        .demo-footer {
-            padding-left: 40px;
-        }
-        
-        .demo-footer .mdl-mini-footer--link-list a {
-            font-size: 13px;
-        }
-    </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-
-    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Material+Icons|Roboto:300,400,500,700'>
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.3.0/material.indigo-red.min.css'>
-    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/getmdl-select@2.0.1/getmdl-select.min.css'>
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css'>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.3.0/material.min.js'></script>
-    <script src='https://cdn.jsdelivr.net/npm/getmdl-select@2.0.1/getmdl-select.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js'></script>
     <script>
-        if (typeof escapeHtmlEntities == "undefined") {
-            escapeHtmlEntities = function(text) {
-                return text.replace(/[\u00A0-\u2666<>\&]/g, function(c) {
-                    return (
-                        "&" +
-                        (escapeHtmlEntities.entityTable[c.charCodeAt(0)] ||
-                            "#" + c.charCodeAt(0)) +
-                        ";"
-                    );
-                });
-            };
-
-            // all HTML4 entities as defined here: http://www.w3.org/TR/html4/sgml/entities.html
-            // added: amp, lt, gt, quot and apos
-            escapeHtmlEntities.entityTable = {
-                34: "quot",
-                38: "amp",
-                39: "apos",
-                60: "lt",
-                62: "gt",
-                160: "nbsp",
-                161: "iexcl",
-                162: "cent",
-                163: "pound",
-                164: "curren",
-                165: "yen",
-                166: "brvbar",
-                167: "sect",
-                168: "uml",
-                169: "copy",
-                170: "ordf",
-                171: "laquo",
-                172: "not",
-                173: "shy",
-                174: "reg",
-                175: "macr",
-                176: "deg",
-                177: "plusmn",
-                178: "sup2",
-                179: "sup3",
-                180: "acute",
-                181: "micro",
-                182: "para",
-                183: "middot",
-                184: "cedil",
-                185: "sup1",
-                186: "ordm",
-                187: "raquo",
-                188: "frac14",
-                189: "frac12",
-                190: "frac34",
-                191: "iquest",
-                192: "Agrave",
-                193: "Aacute",
-                194: "Acirc",
-                195: "Atilde",
-                196: "Auml",
-                197: "Aring",
-                198: "AElig",
-                199: "Ccedil",
-                200: "Egrave",
-                201: "Eacute",
-                202: "Ecirc",
-                203: "Euml",
-                204: "Igrave",
-                205: "Iacute",
-                206: "Icirc",
-                207: "Iuml",
-                208: "ETH",
-                209: "Ntilde",
-                210: "Ograve",
-                211: "Oacute",
-                212: "Ocirc",
-                213: "Otilde",
-                214: "Ouml",
-                215: "times",
-                216: "Oslash",
-                217: "Ugrave",
-                218: "Uacute",
-                219: "Ucirc",
-                220: "Uuml",
-                221: "Yacute",
-                222: "THORN",
-                223: "szlig",
-                224: "agrave",
-                225: "aacute",
-                226: "acirc",
-                227: "atilde",
-                228: "auml",
-                229: "aring",
-                230: "aelig",
-                231: "ccedil",
-                232: "egrave",
-                233: "eacute",
-                234: "ecirc",
-                235: "euml",
-                236: "igrave",
-                237: "iacute",
-                238: "icirc",
-                239: "iuml",
-                240: "eth",
-                241: "ntilde",
-                242: "ograve",
-                243: "oacute",
-                244: "ocirc",
-                245: "otilde",
-                246: "ouml",
-                247: "divide",
-                248: "oslash",
-                249: "ugrave",
-                250: "uacute",
-                251: "ucirc",
-                252: "uuml",
-                253: "yacute",
-                254: "thorn",
-                255: "yuml",
-                402: "fnof",
-                913: "Alpha",
-                914: "Beta",
-                915: "Gamma",
-                916: "Delta",
-                917: "Epsilon",
-                918: "Zeta",
-                919: "Eta",
-                920: "Theta",
-                921: "Iota",
-                922: "Kappa",
-                923: "Lambda",
-                924: "Mu",
-                925: "Nu",
-                926: "Xi",
-                927: "Omicron",
-                928: "Pi",
-                929: "Rho",
-                931: "Sigma",
-                932: "Tau",
-                933: "Upsilon",
-                934: "Phi",
-                935: "Chi",
-                936: "Psi",
-                937: "Omega",
-                945: "alpha",
-                946: "beta",
-                947: "gamma",
-                948: "delta",
-                949: "epsilon",
-                950: "zeta",
-                951: "eta",
-                952: "theta",
-                953: "iota",
-                954: "kappa",
-                955: "lambda",
-                956: "mu",
-                957: "nu",
-                958: "xi",
-                959: "omicron",
-                960: "pi",
-                961: "rho",
-                962: "sigmaf",
-                963: "sigma",
-                964: "tau",
-                965: "upsilon",
-                966: "phi",
-                967: "chi",
-                968: "psi",
-                969: "omega",
-                977: "thetasym",
-                978: "upsih",
-                982: "piv",
-                8226: "bull",
-                8230: "hellip",
-                8242: "prime",
-                8243: "Prime",
-                8254: "oline",
-                8260: "frasl",
-                8472: "weierp",
-                8465: "image",
-                8476: "real",
-                8482: "trade",
-                8501: "alefsym",
-                8592: "larr",
-                8593: "uarr",
-                8594: "rarr",
-                8595: "darr",
-                8596: "harr",
-                8629: "crarr",
-                8656: "lArr",
-                8657: "uArr",
-                8658: "rArr",
-                8659: "dArr",
-                8660: "hArr",
-                8704: "forall",
-                8706: "part",
-                8707: "exist",
-                8709: "empty",
-                8711: "nabla",
-                8712: "isin",
-                8713: "notin",
-                8715: "ni",
-                8719: "prod",
-                8721: "sum",
-                8722: "minus",
-                8727: "lowast",
-                8730: "radic",
-                8733: "prop",
-                8734: "infin",
-                8736: "ang",
-                8743: "and",
-                8744: "or",
-                8745: "cap",
-                8746: "cup",
-                8747: "int",
-                8756: "there4",
-                8764: "sim",
-                8773: "cong",
-                8776: "asymp",
-                8800: "ne",
-                8801: "equiv",
-                8804: "le",
-                8805: "ge",
-                8834: "sub",
-                8835: "sup",
-                8836: "nsub",
-                8838: "sube",
-                8839: "supe",
-                8853: "oplus",
-                8855: "otimes",
-                8869: "perp",
-                8901: "sdot",
-                8968: "lceil",
-                8969: "rceil",
-                8970: "lfloor",
-                8971: "rfloor",
-                9001: "lang",
-                9002: "rang",
-                9674: "loz",
-                9824: "spades",
-                9827: "clubs",
-                9829: "hearts",
-                9830: "diams",
-                338: "OElig",
-                339: "oelig",
-                352: "Scaron",
-                353: "scaron",
-                376: "Yuml",
-                710: "circ",
-                732: "tilde",
-                8194: "ensp",
-                8195: "emsp",
-                8201: "thinsp",
-                8204: "zwnj",
-                8205: "zwj",
-                8206: "lrm",
-                8207: "rlm",
-                8211: "ndash",
-                8212: "mdash",
-                8216: "lsquo",
-                8217: "rsquo",
-                8218: "sbquo",
-                8220: "ldquo",
-                8221: "rdquo",
-                8222: "bdquo",
-                8224: "dagger",
-                8225: "Dagger",
-                8240: "permil",
-                8249: "lsaquo",
-                8250: "rsaquo",
-                8364: "euro"
-            };
-        }
-
-        function codetoexecfunc() {
-            $("#codetoexec").toggle();
-        }
-
-        function updatebox() {
-            if ($("#subdomain-name").val() !== "") {
-                $("#confirm-box").prop("disabled", false);
-            } else {
-                $("#confirm-box").prop("disabled", true);
+        var __assign = (this && this.__assign) || Object.assign || function(t) {
+            for (var s, i = 1, n = arguments.length; i < n; i++) {
+                s = arguments[i];
+                for (var p in s)
+                    if (Object.prototype.hasOwnProperty.call(s, p))
+                        t[p] = s[p];
             }
-        }
-
-        function updatedomain() {
-            if (
-                $("#domain-name").val() === "" ||
-                /https:\/\/.*\.mit-license\.org/gm.test($("#domain-name").val())
-            ) {
-                if ($("#copyright-name").val() === "") {
-                    $("#domain-name").val("");
-                    $("#domain-name-div").removeClass("is-dirty");
-                } else {
-                    $("#domain-name")[0].parentElement.MaterialTextfield.change(
-                        "https://" +
-                        $("#copyright-name")
-                        .val()
-                        .toLowerCase()
-                        .replace(" ", "-") +
-                        ".mit-license.org"
-                    );
-                }
+            return t;
+        };
+        // https://richienb.mit-license.org/
+        mdc.autoInit();
+        Array.prototype.cycle = function(str) {
+            var i = this.indexOf(str);
+            if (i === -1)
+                return undefined;
+            return this[(i + 1) % this.length];
+        };
+        var handleTheme = function() {
+            switch (localStorage.getItem("theme")) {
+                case "light":
+                    $(".theme-toggle__svg").html("<path fill=\"none\" d=\"M0 0h24v24H0V0z\"/><path d=\"M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69zm-2 5.79V18h-3.52L12 20.48 9.52 18H6v-3.52L3.52 12 6 9.52V6h3.52L12 3.52 14.48 6H18v3.52L20.48 12 18 14.48zM12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z\"/><circle cx=\"12\" cy=\"12\" r=\"2.5\"/>");
+                    $("body").removeClass("setting--dark");
+                    break;
+                case "dark":
+                    $(".theme-toggle__svg").html("<path fill=\"none\" d=\"M0 0h24v24H0V0z\"/><path d=\"M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69zm-2 5.79V18h-3.52L12 20.48 9.52 18H6v-3.52L3.52 12 6 9.52V6h3.52L12 3.52 14.48 6H18v3.52L20.48 12 18 14.48zM12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z\"/>");
+                    $("body").addClass("setting--dark");
+                    break;
+                default:
+                    $(".theme-toggle__svg").html("<path fill=\"none\" d=\"M0 0h24v24H0V0z\"/><path d=\"M11 7l-3.2 9h1.9l.7-2h3.2l.7 2h1.9L13 7h-2zm-.15 5.65L12 9l1.15 3.65h-2.3zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69zm-2 5.79V18h-3.52L12 20.48 9.52 18H6v-3.52L3.52 12 6 9.52V6h3.52L12 3.52 14.48 6H18v3.52L20.48 12 18 14.48z\"/>");
+                    var hours = new Date().getHours();
+                    $("body").toggleClass("setting--dark", hours <= 6 ||
+                        hours >= 20 ||
+                        window.matchMedia("(prefers-color-scheme: dark)").matches ||
+                        window.matchMedia("(-ms-high-contrast: white-on-black)").matches);
             }
-        }
-
-        function updatecode() {
-            document.getElementById("confirm-box-div").MaterialCheckbox.uncheck();
-            $("#codetoexec").hide();
-            var dict = [];
-            if ($("#copyright-name").val() !== "") {
-                dict.push({
-                    copyright: $("#copyright-name").val()
-                });
-            }
-            if ($("#link-url").val() !== "") {
-                dict.push({
-                    url: $("#link-url").val()
-                });
-            }
-            if ($("#email").val() !== "") {
-                dict.push({
-                    email: $("#email").val()
-                });
-            }
-            if ($("#license-version-targeting").val() !== "") {
-                dict.push({
-                    version: $("#license-version-targeting").val()
-                });
-            }
-            if ($("#default-output-type").val() === "HTML") {
-                dict.push({
-                    format: "html"
-                });
-            } else if ($("#default-output-type").val() === "Text") {
-                dict.push({
-                    format: "txt"
-                });
-            } else {
-                console.err("ERROR: Default Output Type is neither HTML or Text");
-            }
-            dict.push({
-                gravatar: $("#use-gravatar-div").is(".is-checked"),
-                theme: $("#theme").val()
+        };
+        if (["auto", "light", "dark"].indexOf(localStorage.getItem("theme")) === -1)
+            localStorage.setItem("theme", "auto");
+        handleTheme();
+        $("body").addClass("setting--animate-colours");
+        $(".theme-toggle").click(function() {
+            localStorage.setItem("theme", ["auto", "light", "dark"].cycle(localStorage.getItem("theme")));
+            handleTheme();
+        });
+        var input = "input paste";
+        var gen = {};
+        gen.subdomain = $(".gen__subdomain").get(0).MDCTextField;
+        gen.copyright = $(".gen__copyright").get(0).MDCTextField;
+        gen.format = new mdc.select.MDCSelect($(".gen__format").get(0));
+        gen.license = new mdc.select.MDCSelect($(".gen__license").get(0));
+        gen.gravatar = new mdc.switchControl.MDCSwitch($(".gen__gravatar").get(0));
+        var subdomained = function(val) {
+            return val.replace(" ", "-").replace(/[^\w-_]/g, "").toLowerCase();
+        };
+        var capEachWord = function(val) {
+            return $.map(val.toLowerCase().split(' '), function(s) {
+                return s.charAt(0).toUpperCase() + s.substring(1);
+            }).join(' ');
+        };
+        $(".gen__copyright input").first().on(input, function() {
+            if (gen.subdomain.value === subdomained($(".gen__copyright").first().data('oldVal') || ""))
+                gen.subdomain.value = subdomained(gen.copyright.value);
+            $(".gen__copyright").first().data('oldVal', gen.copyright.value);
+        });
+        var loadThemes = function() {
+            $.map(JSON.parse(localStorage.getItem("mitlic-themes")) || ["default", "default-dark"], function(i) {
+                return $(".gen__theme-list").append("<li class=\"mdc-list-item" + (i === "default" ? " mdc-list-item--selected" : "") + "\" data-value=\"" + i + "\" role=\"option\" data-mdc-auto-init=\"MDCRipple\">" + capEachWord(i.replace(/-/g, " ")) + "</li>");
             });
-            $("#code").html(
-                PR.prettyPrintOne(
-                    escapeHtmlEntities(
-                        "curl -d'" +
-                        JSON.stringify(dict)
-                        .replace(/{/g, "")
-                        .replace(/}/g, "")
-                        .replace("[", "{")
-                        .replace("]", "}") +
-                        "' https://" +
-                        $("#subdomain-name").val() +
-                        ".mit-license.org"
-                    )
-                )
-            );
-        }
-
-        $(document).ready(function() {
-            $.getJSON(
-                "https://api.github.com/repos/remy/mit-license/contents/themes",
-                function(data) {
-                    for (var i = 0; i < data.length; i++) {
-                        if (
-                            data[i].name.endsWith(".css") &&
-                            data[i].name.slice(0, -4) !== "default"
-                        ) {
-                            var codetoappend =
-                                '<li onclick="updatecode()" class="mdl-menu__item">' +
-                                data[i].name.slice(0, -4) +
-                                "</li>";
-                            $("#theme-list").append(codetoappend);
-                        }
-                    }
+            mdc.autoInit($(".gen__theme .mdc-list").get(0));
+            gen.theme = new mdc.select.MDCSelect($(".gen__theme").get(0));
+        };
+        $.getJSON("https://api.github.com/rate_limit", function(_a) {
+            var resources = _a.resources;
+            if (resources.core.remaining === 0)
+                loadThemes();
+            else
+                $.getJSON("https://api.github.com/repos/remy/mit-license/contents/themes", function(data) {
+                    localStorage.setItem("mitlic-themes", JSON.stringify(data.reduce(function(acc, curr) {
+                        if (curr.name.endsWith(".css"))
+                            acc.push(curr.name.slice(0, -4));
+                        return acc;
+                    }, [])));
+                    loadThemes();
+                });
+        });
+        var removeEmpty = function(o) {
+            var obj = o;
+            Object.keys(obj).forEach(function(key) {
+                return (obj[key] === "") && delete obj[key];
+            });
+            return obj;
+        };
+        var snackbar = $(".gen__snackbar").get(0).MDCSnackbar;
+        var snackBarMessage = function(message) {
+            snackbar.close();
+            snackbar.labelText = message;
+            snackbar.open();
+        };
+        $(".gen__form").submit(function(e) {
+            e.preventDefault();
+            var userData = Array.from($(".gen__copyright-card").map(function(_, el) {
+                var copyright = $(el).find(".gen__copyright").get(0).MDCTextField;
+                var url = $(el).find(".gen__url").get(0).MDCTextField;
+                var email = $(el).find(".gen__email").get(0).MDCTextField;
+                if (!copyright.value)
+                    return;
+                if (!url.value && !email.value)
+                    return copyright.value;
+                return removeEmpty({
+                    copyright: copyright.value,
+                    url: url.value,
+                    email: email.value
+                });
+            }));
+            var sendData = userData.length === 1 ? userData[0] : {
+                copyright: userData
+            };
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: "https://" + gen.subdomain.value + ".mit-license.org",
+                data: __assign({}, sendData, {
+                    format: gen.format.value,
+                    license: gen.license.value,
+                    theme: gen.theme.value,
+                    gravatar: gen.gravatar.checked
+                }),
+                success: function(_a) {
+                    var responseText = _a.responseText;
+                    return snackBarMessage(responseText);
+                },
+                error: function(_a) {
+                    var responseText = _a.responseText;
+                    return snackBarMessage(responseText);
                 }
-            );
+            });
+        });
+        $(".gen__add-holder").click(function() {
+            $(".gen__copyright-card").last().after("\n<div class=\"gen__copyright-card gen__copyright-card-extra mdc-card mdc-card--outlined full-width\" data-mdc-auto-init=\"MDCTextField\">\n            <label class=\"gen__copyright mdc-text-field mdc-text-field--outlined full-width\" data-mdc-auto-init=\"MDCTextField\">\n            <input type=\"text\" class=\"mdc-text-field__input\">\n            <div class=\"mdc-notched-outline\">\n                <div class=\"mdc-notched-outline__leading\"></div>\n                <div class=\"mdc-notched-outline__notch\">\n                    <span class=\"mdc-floating-label\">Copyright holder</span>\n                </div>\n                <div class=\"mdc-notched-outline__trailing\"></div>\n            </div>\n        </label>\n            <br>\n            <label class=\"gen__url mdc-text-field mdc-text-field--outlined full-width\" data-mdc-auto-init=\"MDCTextField\">\n            <input type=\"url\" class=\"mdc-text-field__input\">\n            <div class=\"mdc-notched-outline\">\n                <div class=\"mdc-notched-outline__leading\"></div>\n                <div class=\"mdc-notched-outline__notch\">\n                    <span class=\"mdc-floating-label\">URL</span>\n                </div>\n                <div class=\"mdc-notched-outline__trailing\"></div>\n            </div>\n        </label>\n            <br>\n            <label class=\"gen__email mdc-text-field mdc-text-field--outlined full-width\" data-mdc-auto-init=\"MDCTextField\">\n            <input type=\"email\" class=\"mdc-text-field__input\">\n            <div class=\"mdc-notched-outline\">\n                <div class=\"mdc-notched-outline__leading\"></div>\n                <div class=\"mdc-notched-outline__notch\">\n                    <span class=\"mdc-floating-label\">Email</span>\n                </div>\n                <div class=\"mdc-notched-outline__trailing\"></div>\n            </div>\n        </label>\n        </div>\n");
+            mdc.autoInit($(".gen__copyright-card").last().get(0));
         });
     </script>
+
 </body>
 
 </html>
