@@ -13,7 +13,7 @@
 
     <link rel="shortcut icon" href="favicon.ico">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/3.1.0/material-components-web.min.css" integrity="sha256-voUqnCyPwUS8V13qBTL34rsJfLjgkTes5RWoUVChVAw=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/3.2.0/material-components-web.min.css" integrity="sha256-meCIrcSmZOI36GjD4uIA3wP8yl/jg8KBgpL4B3bv5Dk=" crossorigin="anonymous" />
 
     <style>
         body {
@@ -110,13 +110,13 @@
             box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
         }
         
-        body .main-content #carbonads .carbon-wrap .carbon-img > img {
+        body .main-content #carbonads .carbon-wrap .carbon-img>img {
             margin-right: 9px;
             float: left;
         }
         
         @media only screen and (max-width: 400px) {
-            body .main-content #carbonads .carbon-wrap .carbon-img > img {
+            body .main-content #carbonads .carbon-wrap .carbon-img>img {
                 width: auto;
                 max-width: 130px;
                 height: 50px;
@@ -335,7 +335,7 @@
             </label>
             <br>
             <br>
-            <div class="gen__format mdc-select mdc-select--outlined full-width">
+            <div class="gen__format mdc-select mdc-select--outlined full-width" data-mdc-auto-init="MDCSelect">
                 <input type="hidden" name="enhanced-select">
                 <i class="mdc-select__dropdown-icon"></i>
                 <div id="demo-selected-text" class="mdc-select__selected-text" role="button" aria-haspopup="listbox" aria-labelledby="demo-label demo-selected-text"></div>
@@ -349,26 +349,6 @@
                     <div class="mdc-notched-outline__leading"></div>
                     <div class="mdc-notched-outline__notch">
                         <label class="mdc-floating-label">Format</label>
-                    </div>
-                    <div class="mdc-notched-outline__trailing"></div>
-                </div>
-            </div>
-            <br>
-            <br>
-            <div class="gen__license mdc-select mdc-select--outlined full-width">
-                <input type="hidden" name="enhanced-select">
-                <i class="mdc-select__dropdown-icon"></i>
-                <div id="demo-selected-text" class="mdc-select__selected-text" role="button" aria-haspopup="listbox" aria-labelledby="demo-label demo-selected-text"></div>
-                <div class="mdc-select__menu mdc-menu mdc-menu-surface" role="listbox">
-                    <ul class="mdc-list">
-                        <li class="mdc-list-item mdc-list-item--selected" data-value="mit" role="option" data-mdc-auto-init="MDCRipple">MIT</li>
-                        <li class="mdc-list-item" data-value="isc" role="option" data-mdc-auto-init="MDCRipple">ISC</li>
-                    </ul>
-                </div>
-                <div class="mdc-notched-outline">
-                    <div class="mdc-notched-outline__leading"></div>
-                    <div class="mdc-notched-outline__notch">
-                        <label class="mdc-floating-label">Default License</label>
                     </div>
                     <div class="mdc-notched-outline__trailing"></div>
                 </div>
@@ -393,7 +373,27 @@
             </div>
             <br>
             <br>
-            <div class="gen__gravatar mdc-switch">
+            <div class="gen__license mdc-select mdc-select--outlined full-width" data-mdc-auto-init="MDCSelect">
+                <input type="hidden" name="enhanced-select">
+                <i class="mdc-select__dropdown-icon"></i>
+                <div id="demo-selected-text" class="mdc-select__selected-text" role="button" aria-haspopup="listbox" aria-labelledby="demo-label demo-selected-text"></div>
+                <div class="mdc-select__menu mdc-menu mdc-menu-surface" role="listbox">
+                    <ul class="mdc-list">
+                        <li class="mdc-list-item mdc-list-item--selected" data-value="mit" role="option" data-mdc-auto-init="MDCRipple">MIT</li>
+                        <li class="mdc-list-item" data-value="isc" role="option" data-mdc-auto-init="MDCRipple">ISC</li>
+                    </ul>
+                </div>
+                <div class="mdc-notched-outline">
+                    <div class="mdc-notched-outline__leading"></div>
+                    <div class="mdc-notched-outline__notch">
+                        <label class="mdc-floating-label">Default License</label>
+                    </div>
+                    <div class="mdc-notched-outline__trailing"></div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="gen__gravatar mdc-switch" data-mdc-auto-init="MDCSwitch">
                 <div class="mdc-switch__track"></div>
                 <div class="mdc-switch__thumb-underlay">
                     <div class="mdc-switch__thumb">
@@ -416,12 +416,17 @@
         <div class="gen__snackbar mdc-snackbar mdc-snackbar--leading" data-mdc-auto-init="MDCSnackbar">
             <div class="mdc-snackbar__surface">
                 <div class="mdc-snackbar__label" role="status" aria-live="polite"></div>
+                <div class="mdc-snackbar__actions">
+                    <button type="button" class="gen__copy-json mdc-button mdc-snackbar__action" data-mdc-auto-init="MDCRipple">Copy User JSON</button>
+                </div>
             </div>
         </div>
     </main>
     <!--[if lt IE 9]> <script async src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js" integrity="sha256-1eSvllkLdrfxD6G8RGF9h+mQuD93Af5+GdPBMNc7uMQ=" crossorigin="anonymous"></script> <![endif]-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/3.1.0/material-components-web.min.js" integrity="sha256-rv3OBFdLbjPoTQfXBZSlTToJy4+1oL418ga1bksQmyU=" crossorigin="anonymous"></script>
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/clipboard-polyfill/2.8.6/clipboard-polyfill.js" integrity="sha256-CXoEMsIBPFOiyA+SLBvD8s5NWUBEqNwOwmeTjHV7/NE=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/3.2.0/material-components-web.min.js" integrity="sha256-cjDSRjLK6fmoV17j5OF+xYbz+K4SQqft2QVGtnVTvv8=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.min.js" integrity="sha256-VeNaFBVDhoX3H+gJ37DpT/nTuZTdjYro9yBruHjVmoQ=" crossorigin="anonymous"></script>
 
     <script>
         var __assign = (this && this.__assign) || Object.assign || function(t) {
@@ -460,7 +465,7 @@
                         window.matchMedia("(-ms-high-contrast: white-on-black)").matches);
             }
         };
-        if (["auto", "light", "dark"].indexOf(localStorage.getItem("theme")) === -1)
+        if (!_.includes(["auto", "light", "dark"], localStorage.getItem("theme")))
             localStorage.setItem("theme", "auto");
         handleTheme();
         $("body").addClass("setting--animate-colours");
@@ -469,19 +474,15 @@
             handleTheme();
         });
         var input = "input paste";
-        var gen = {};
-        gen.subdomain = $(".gen__subdomain").get(0).MDCTextField;
-        gen.copyright = $(".gen__copyright").get(0).MDCTextField;
-        gen.format = new mdc.select.MDCSelect($(".gen__format").get(0));
-        gen.license = new mdc.select.MDCSelect($(".gen__license").get(0));
-        gen.gravatar = new mdc.switchControl.MDCSwitch($(".gen__gravatar").get(0));
-        var subdomained = function(val) {
-            return val.replace(" ", "-").replace(/[^\w-_]/g, "").toLowerCase();
+        var gen = {
+            subdomain: $(".gen__subdomain").get(0).MDCTextField,
+            copyright: $(".gen__copyright").get(0).MDCTextField,
+            format: $(".gen__format").get(0).MDCSelect,
+            license: $(".gen__license").get(0).MDCSelect,
+            gravatar: $(".gen__gravatar").get(0).MDCSwitch
         };
-        var capEachWord = function(val) {
-            return $.map(val.toLowerCase().split(' '), function(s) {
-                return s.charAt(0).toUpperCase() + s.substring(1);
-            }).join(' ');
+        var subdomained = function(val) {
+            return _.trim(val.replace(" ", "-"), /[^\w-_]/g).toLowerCase();
         };
         $(".gen__copyright input").first().on(input, function() {
             if (gen.subdomain.value === subdomained($(".gen__copyright").first().data('oldVal') || ""))
@@ -489,11 +490,11 @@
             $(".gen__copyright").first().data('oldVal', gen.copyright.value);
         });
         var loadThemes = function() {
-            $.map(JSON.parse(localStorage.getItem("mitlic-themes")) || ["default", "default-dark"], function(i) {
-                return $(".gen__theme-list").append("<li class=\"mdc-list-item" + (i === "default" ? " mdc-list-item--selected" : "") + "\" data-value=\"" + i + "\" role=\"option\" data-mdc-auto-init=\"MDCRipple\">" + capEachWord(i.replace(/-/g, " ")) + "</li>");
+            _.map(JSON.parse(localStorage.getItem("mitlic-themes")) || ["default", "default-dark"], function(i) {
+                return $(".gen__theme-list").append("<li class=\"mdc-list-item" + (i === "default" ? " mdc-list-item--selected" : "") + "\" data-value=\"" + i + "\" role=\"option\" data-mdc-auto-init=\"MDCRipple\">" + _.startCase(i.replace(/-/g, " ")) + "</li>");
             });
-            mdc.autoInit($(".gen__theme .mdc-list").get(0));
             gen.theme = new mdc.select.MDCSelect($(".gen__theme").get(0));
+            mdc.autoInit($(".gen__theme .mdc-list").get(0));
         };
         $.getJSON("https://api.github.com/rate_limit", function(_a) {
             var resources = _a.resources;
@@ -501,56 +502,54 @@
                 loadThemes();
             else
                 $.getJSON("https://api.github.com/repos/remy/mit-license/contents/themes", function(data) {
-                    localStorage.setItem("mitlic-themes", JSON.stringify(data.reduce(function(acc, curr) {
-                        if (curr.name.endsWith(".css"))
-                            acc.push(curr.name.slice(0, -4));
+                    localStorage.setItem("mitlic-themes", JSON.stringify(_.reduce(data, function(acc, _a) {
+                        var name = _a.name;
+                        if (_.endsWith(name, ".css"))
+                            acc.push(name.slice(0, -4));
                         return acc;
                     }, [])));
                     loadThemes();
                 });
         });
-        var removeEmpty = function(o) {
-            var obj = o;
-            Object.keys(obj).forEach(function(key) {
-                return (obj[key] === "") && delete obj[key];
-            });
-            return obj;
-        };
         var snackbar = $(".gen__snackbar").get(0).MDCSnackbar;
         var snackBarMessage = function(message) {
             snackbar.close();
             snackbar.labelText = message;
             snackbar.open();
         };
+        var sendData;
         $(".gen__form").submit(function(e) {
             e.preventDefault();
-            var userData = Array.from($(".gen__copyright-card").map(function(_, el) {
-                var copyright = $(el).find(".gen__copyright").get(0).MDCTextField;
-                var url = $(el).find(".gen__url").get(0).MDCTextField;
-                var email = $(el).find(".gen__email").get(0).MDCTextField;
-                if (!copyright.value)
+            var userData = _.toArray($(".gen__copyright-card").map(function(_val, el) {
+                var copyright = $(el).find(".gen__copyright").get(0).MDCTextField.value;
+                var url = $(el).find(".gen__url").get(0).MDCTextField.value;
+                var email = $(el).find(".gen__email").get(0).MDCTextField.value;
+                if (!copyright)
                     return;
-                if (!url.value && !email.value)
-                    return copyright.value;
-                return removeEmpty({
-                    copyright: copyright.value,
-                    url: url.value,
-                    email: email.value
+                if (!url && !email)
+                    return copyright;
+                return _.pickBy({
+                    copyright: copyright,
+                    url: url,
+                    email: email
                 });
             }));
-            var sendData = userData.length === 1 ? userData[0] : {
+            var copyrightData = userData.length === 1 ? typeof userData[0] === "string" ? {
+                copyright: userData[0]
+            } : userData[0] : {
                 copyright: userData
             };
+            sendData = __assign({}, copyrightData, {
+                format: gen.format.value,
+                license: gen.license.value,
+                theme: gen.theme.value,
+                gravatar: gen.gravatar.checked
+            });
             $.ajax({
                 type: "POST",
                 dataType: "json",
                 url: "https://" + gen.subdomain.value + ".mit-license.org",
-                data: __assign({}, sendData, {
-                    format: gen.format.value,
-                    license: gen.license.value,
-                    theme: gen.theme.value,
-                    gravatar: gen.gravatar.checked
-                }),
+                data: JSON.stringify(sendData),
                 success: function(_a) {
                     var responseText = _a.responseText;
                     return snackBarMessage(responseText);
@@ -564,6 +563,15 @@
         $(".gen__add-holder").click(function() {
             $(".gen__copyright-card").last().after("\n<div class=\"gen__copyright-card gen__copyright-card-extra mdc-card mdc-card--outlined full-width\" data-mdc-auto-init=\"MDCTextField\">\n            <label class=\"gen__copyright mdc-text-field mdc-text-field--outlined full-width\" data-mdc-auto-init=\"MDCTextField\">\n            <input type=\"text\" class=\"mdc-text-field__input\">\n            <div class=\"mdc-notched-outline\">\n                <div class=\"mdc-notched-outline__leading\"></div>\n                <div class=\"mdc-notched-outline__notch\">\n                    <span class=\"mdc-floating-label\">Copyright holder</span>\n                </div>\n                <div class=\"mdc-notched-outline__trailing\"></div>\n            </div>\n        </label>\n            <br>\n            <label class=\"gen__url mdc-text-field mdc-text-field--outlined full-width\" data-mdc-auto-init=\"MDCTextField\">\n            <input type=\"url\" class=\"mdc-text-field__input\">\n            <div class=\"mdc-notched-outline\">\n                <div class=\"mdc-notched-outline__leading\"></div>\n                <div class=\"mdc-notched-outline__notch\">\n                    <span class=\"mdc-floating-label\">URL</span>\n                </div>\n                <div class=\"mdc-notched-outline__trailing\"></div>\n            </div>\n        </label>\n            <br>\n            <label class=\"gen__email mdc-text-field mdc-text-field--outlined full-width\" data-mdc-auto-init=\"MDCTextField\">\n            <input type=\"email\" class=\"mdc-text-field__input\">\n            <div class=\"mdc-notched-outline\">\n                <div class=\"mdc-notched-outline__leading\"></div>\n                <div class=\"mdc-notched-outline__notch\">\n                    <span class=\"mdc-floating-label\">Email</span>\n                </div>\n                <div class=\"mdc-notched-outline__trailing\"></div>\n            </div>\n        </label>\n        </div>\n");
             mdc.autoInit($(".gen__copyright-card").last().get(0));
+        });
+        $(".gen__copy-json").click(function() {
+            return navigator.clipboard.writeText(JSON.stringify(sendData, null, 2))["catch"](function() {
+                return console.error("Failed to write to the clipboard.");
+            });
+        });
+        gen.format.listen("MDCSelect:change", function(_a) {
+            var detail = _a.detail;
+            return gen.theme.disabled = detail.value === "text";
         });
     </script>
 
