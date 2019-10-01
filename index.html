@@ -482,7 +482,7 @@
             gravatar: $(".gen__gravatar").get(0).MDCSwitch
         };
         var subdomained = function(val) {
-            return _.trim(val.replace(" ", "-"), /[^\w-_]/g).toLowerCase();
+            return val.replace(" ", "-").replace(/[^\w-_]/g, "").toLowerCase();
         };
         $(".gen__copyright input").first().on(input, function() {
             if (gen.subdomain.value === subdomained($(".gen__copyright").first().data('oldVal') || ""))
